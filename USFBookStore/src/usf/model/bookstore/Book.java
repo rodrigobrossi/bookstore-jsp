@@ -1,12 +1,14 @@
 package usf.model.bookstore;
 
+import usf.model.bookstore.basic.ModelBasic;
+
 /**
  * Book.java This is a model class represents a book entity
  * 
  * @author rbrossi
  *
  */
-public class Book {
+public class Book implements ModelBasic {
 	protected int id;
 	protected String title;
 	protected String author;

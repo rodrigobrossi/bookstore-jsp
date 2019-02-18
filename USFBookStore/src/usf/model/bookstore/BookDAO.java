@@ -1,13 +1,14 @@
 package usf.model.bookstore;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import usf.model.bookstore.basic.BasicDAO;
+import usf.model.bookstore.basic.ModelBasic;
 
 /**
  * AbstractDAO.java This DAO class provides CRUD database operations for the
@@ -16,47 +17,18 @@ import java.util.List;
  * @author rbrossi
  *
  */
-public class BookDAO {
-	private String jdbcURL;
-	private String jdbcUsername;
-	private String jdbcPassword;
-	private String jdbcDriver;
-	private Connection jdbcConnection;
+public class BookDAO extends BasicDAO {
 
 	public BookDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
-		this.jdbcURL = jdbcURL;
-		this.jdbcUsername = jdbcUsername;
-		this.jdbcPassword = jdbcPassword;
-		this.jdbcDriver = "com.mysql.jdbc.Driver";
-		
+		super(jdbcURL, jdbcUsername, jdbcPassword);
 	}
-	
+
 	public BookDAO(String jdbcURL, String jdbcUsername, String jdbcPassword, String jdbcDriver) {
-		this.jdbcURL = jdbcURL;
-		this.jdbcUsername = jdbcUsername;
-		this.jdbcPassword = jdbcPassword;
-		this.jdbcDriver = jdbcDriver;
-		
+		super(jdbcURL, jdbcUsername, jdbcPassword,jdbcDriver);	
 	}
 
-	protected void connect() throws SQLException {
-		if (jdbcConnection == null || jdbcConnection.isClosed()) {
-			try {
-				Class.forName(this.jdbcDriver);
-			} catch (ClassNotFoundException e) {
-				throw new SQLException(e);
-			}
-			jdbcConnection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-		}
-	}
-
-	protected void disconnect() throws SQLException {
-		if (jdbcConnection != null && !jdbcConnection.isClosed()) {
-			jdbcConnection.close();
-		}
-	}
-
-	public boolean insertBook(Book book) throws SQLException {
+	public boolean insert(ModelBasic model) throws SQLException {
+		Book book = (Book) model;
 		String sql = "INSERT INTO book (title, author, price) VALUES (?, ?, ?)";
 		connect();
 
@@ -71,8 +43,8 @@ public class BookDAO {
 		return rowInserted;
 	}
 
-	public List<Book> listAllBooks() throws SQLException {
-		List<Book> listBook = new ArrayList<>();
+	public List<ModelBasic> listAll() throws SQLException {
+		List<ModelBasic> listBook = new ArrayList<>();
 
 		String sql = "SELECT * FROM book";
 
@@ -99,7 +71,7 @@ public class BookDAO {
 		return listBook;
 	}
 
-	public boolean deleteBook(Book book) throws SQLException {
+	public boolean delete(ModelBasic book) throws SQLException {
 		String sql = "DELETE FROM book where book_id = ?";
 
 		connect();
@@ -113,7 +85,10 @@ public class BookDAO {
 		return rowDeleted;
 	}
 
-	public boolean updateBook(Book book) throws SQLException {
+	public boolean update(ModelBasic model) throws SQLException {
+		// Cast elements
+		Book book = (Book) model;
+
 		String sql = "UPDATE book SET title = ?, author = ?, price = ?";
 		sql += " WHERE book_id = ?";
 		connect();
@@ -130,7 +105,7 @@ public class BookDAO {
 		return rowUpdated;
 	}
 
-	public Book getBook(int id) throws SQLException {
+	public ModelBasic getRecord(int id) throws SQLException {
 		Book book = null;
 		String sql = "SELECT * FROM book WHERE book_id = ?";
 
