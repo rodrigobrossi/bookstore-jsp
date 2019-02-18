@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import usf.model.bookstore.Book;
 import usf.model.bookstore.BookDAO;
+import usf.model.bookstore.ClientDAO;
+import usf.model.bookstore.basic.ModelBasic;
 
 /**
  * ControllerServlet.java This servlet acts as a page controller for the
@@ -19,9 +21,10 @@ import usf.model.bookstore.BookDAO;
  * 
  * @author www.codejava.net
  */
-public class ControllerServlet extends HttpServlet {
+public class BookControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BookDAO bookDAO;
+	private ClientDAO clientDAO;
 	
 	private String AppName = "USFBookStore";
 
@@ -72,7 +75,16 @@ public class ControllerServlet extends HttpServlet {
 
 	private void listBook(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		List<Book> listBook = bookDAO.listAllBooks();
+		List<ModelBasic> listBook = bookDAO.listAll();
+		request.setAttribute("listBook", listBook);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookList.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	
+	private void listClient(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		List<ModelBasic> listBook = clientDAO.listAll();
 		request.setAttribute("listBook", listBook);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookList.jsp");
 		dispatcher.forward(request, response);
@@ -87,7 +99,7 @@ public class ControllerServlet extends HttpServlet {
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		Book existingBook = bookDAO.getBook(id);
+		ModelBasic existingBook = bookDAO.getRecord(id);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookForm.jsp");
 		request.setAttribute("book", existingBook);
 		dispatcher.forward(request, response);
@@ -100,7 +112,7 @@ public class ControllerServlet extends HttpServlet {
 		float price = Float.parseFloat(request.getParameter("price"));
 
 		Book newBook = new Book(title, author, price);
-		bookDAO.insertBook(newBook);
+		bookDAO.insert(newBook);
 		response.sendRedirect("list");
 	}
 
@@ -111,7 +123,7 @@ public class ControllerServlet extends HttpServlet {
 		float price = Float.parseFloat(request.getParameter("price"));
 
 		Book book = new Book(id, title, author, price);
-		bookDAO.updateBook(book);
+		bookDAO.update(book);
 		response.sendRedirect("list");
 	}
 
@@ -119,7 +131,7 @@ public class ControllerServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 
 		Book book = new Book(id);
-		bookDAO.deleteBook(book);
+		bookDAO.delete(book);
 		response.sendRedirect("list");
 
 	}

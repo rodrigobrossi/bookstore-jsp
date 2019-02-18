@@ -31,11 +31,11 @@
 		<param-value>kazu1999</param-value>
 	</context-param>
 	<servlet>
-		<servlet-name>ControllerServlet</servlet-name>
-		<servlet-class>usf.controller.bookstore.ControllerServlet</servlet-class>
+		<servlet-name>BookControllerServlet</servlet-name>
+		<servlet-class>usf.controller.bookstore.BookControllerServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ControllerServlet</servlet-name>
+		<servlet-name>BookControllerServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<error-page>
