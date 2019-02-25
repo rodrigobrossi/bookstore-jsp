@@ -128,7 +128,7 @@
 
                
 
-      <Context docBase="USFBookStore" path="/USFBookStore" reloadable="true" source="org.eclipse.jst.jee.server:USFBookStore"/></Host>
+      <Context docBase="USFBookStore" path="/Bookstore" reloadable="true" source="org.eclipse.jst.jee.server:USFBookStore"/></Host>
     </Engine>
   </Service>
 </Server>

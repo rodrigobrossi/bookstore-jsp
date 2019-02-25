@@ -21,12 +21,10 @@ import usf.model.bookstore.basic.ModelBasic;
  * 
  * @author www.codejava.net
  */
-public class BookControllerServlet extends HttpServlet {
+public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BookDAO bookDAO;
 	private ClientDAO clientDAO;
-	
-	private String AppName = "USFBookStore";
 
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -34,7 +32,7 @@ public class BookControllerServlet extends HttpServlet {
 		String jdbcPassword = getServletContext().getInitParameter("jdbcPassword");
 		String jdbcDriver = getServletContext().getInitParameter("jdbcDriver");
 
-		bookDAO = new BookDAO(jdbcURL, jdbcUsername, jdbcPassword,jdbcDriver);
+		bookDAO = new BookDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 
 	}
 
@@ -45,7 +43,14 @@ public class BookControllerServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+//		String action = ((HttpServletRequest) request).getPathInfo();
+		
 		String action = request.getServletPath();
+
+		
+		if(action==null){
+			return;
+		}
 
 		try {
 			switch (action) {
@@ -64,35 +69,45 @@ public class BookControllerServlet extends HttpServlet {
 			case "/update":
 				updateBook(request, response);
 				break;
-			default:
+			case "/list" :
 				listBook(request, response);
 				break;
+			default:
+				defaultCommnad(request, response);
+				break;
 			}
+		
 		} catch (SQLException ex) {
 			throw new ServletException(ex);
 		}
+	}
+
+	private void defaultCommnad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("Command", "TestCommnad");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("example/ExampleCommnad.jsp");
+		dispatcher.forward(request, response);		
+	
 	}
 
 	private void listBook(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		List<ModelBasic> listBook = bookDAO.listAll();
 		request.setAttribute("listBook", listBook);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookList.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("book/BookList.jsp");
 		dispatcher.forward(request, response);
 	}
-	
-	
+
 	private void listClient(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		List<ModelBasic> listBook = clientDAO.listAll();
 		request.setAttribute("listBook", listBook);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookList.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("book/BookList.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookForm.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("book/BookForm.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -100,7 +115,7 @@ public class BookControllerServlet extends HttpServlet {
 			throws SQLException, ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		ModelBasic existingBook = bookDAO.getRecord(id);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookForm.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("book/BookForm.jsp");
 		request.setAttribute("book", existingBook);
 		dispatcher.forward(request, response);
 

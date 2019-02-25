@@ -25,7 +25,10 @@ public class BookDAO extends BasicDAO {
 
 	public BookDAO(String jdbcURL, String jdbcUsername, String jdbcPassword, String jdbcDriver) {
 		super(jdbcURL, jdbcUsername, jdbcPassword,jdbcDriver);	
+		
 	}
+	
+	
 
 	public boolean insert(ModelBasic model) throws SQLException {
 		Book book = (Book) model;

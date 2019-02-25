@@ -4,17 +4,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Books Store Application</title>
+	<title>Loja de Livros</title>
 </head>
+
+<% 
+
+	String path  = this.getServletContext().getContextPath();
+%>
 <body>
     <center>
-        <h1>Books Management</h1>
-        <h2>
-            <a href="new">Add New Book</a>
-            &nbsp;&nbsp;&nbsp;
-            <a href="list">List All Books</a>
-             
-        </h2>
+        <h1>Gestão de Livros</h1>
+		<h2>
+			<a href="<%=path%>/new">Adicionar um novo Livro</a> &nbsp;&nbsp;&nbsp; 
+			<a href="<%=path%>/list">Listar todos os livros</a>
+
+		</h2>
     </center>
     <div align="center">
         <c:if test="${book != null}">
@@ -27,10 +31,10 @@
             <caption>
                 <h2>
                     <c:if test="${book != null}">
-                        Edit Book
+                        Editar Livro
                     </c:if>
                     <c:if test="${book == null}">
-                        Add New Book
+                        Adicionar um novo livro
                     </c:if>
                 </h2>
             </caption>
@@ -38,7 +42,7 @@
                     <input type="hidden" name="id" value="<c:out value='${book.id}' />" />
                 </c:if>           
             <tr>
-                <th>Title: </th>
+                <th>Título: </th>
                 <td>
                     <input type="text" name="title" size="45"
                             value="<c:out value='${book.title}' />"
@@ -46,7 +50,7 @@
                 </td>
             </tr>
             <tr>
-                <th>Author: </th>
+                <th>Autor: </th>
                 <td>
                     <input type="text" name="author" size="45"
                             value="<c:out value='${book.author}' />"
@@ -54,7 +58,7 @@
                 </td>
             </tr>
             <tr>
-                <th>Price: </th>
+                <th>Preço: </th>
                 <td>
                     <input type="text" name="price" size="5"
                             value="<c:out value='${book.price}' />"
