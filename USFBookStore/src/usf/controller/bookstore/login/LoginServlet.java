@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import usf.model.bookstore.Book;
 import usf.model.bookstore.BookDAO;
 import usf.model.bookstore.ClientDAO;
 import usf.model.bookstore.basic.ModelBasic;
@@ -118,10 +119,18 @@ public class LoginServlet extends HttpServlet {
 		}
 	}
 
-	private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+	private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException {
 		try {
-			response.getWriter().append("Served at: ").append("updateUser");
-			throw new SQLException("Mocked Error");
+			
+			int id = Integer.parseInt(request.getParameter("id"));
+			String lgn = request.getParameter("login");
+			String passwd = request.getParameter("passwd");
+			int perm = Integer.parseInt(request.getParameter("perm"));
+
+			Login login = new Login(id, lgn, passwd, perm);
+			
+			loginDAO.update(login);
+			response.sendRedirect("list");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -142,9 +151,12 @@ public class LoginServlet extends HttpServlet {
 		}
 	}
 
-	private void deleteUser(HttpServletRequest request, HttpServletResponse response) {
+	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		try {
-			response.getWriter().append("Served at: ").append("deleteUser");
+			int id = Integer.parseInt(request.getParameter("id"));
+			Login login = new Login(id);
+			loginDAO.delete(login);
+			response.sendRedirect("list");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -163,9 +175,8 @@ public class LoginServlet extends HttpServlet {
 			Login newUser = new Login(login, pwd, perm);
 
 			loginDAO.insert(newUser);
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/adm/login/LoginList.jsp");
-			dispatcher.forward(request, response);
+			
+			response.sendRedirect("list");
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

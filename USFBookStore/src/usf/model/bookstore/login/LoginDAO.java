@@ -75,7 +75,7 @@ public class LoginDAO extends BasicDAO {
 	}
 
 	public boolean delete(ModelBasic book) throws SQLException {
-		String sql = "DELETE FROM book where book_id = ?";
+		String sql = "DELETE FROM login where login_id = ?";
 
 		connect();
 
@@ -92,7 +92,7 @@ public class LoginDAO extends BasicDAO {
 		// Cast elements
 		Login login = (Login) model;
 
-		String sql = "UPDATE book SET login = ?, passwd = ?, perm = ?";
+		String sql = "UPDATE login SET login = ?, passwd = ?, perm = ?";
 		sql += " WHERE login_id = ?";
 		connect();
 
@@ -111,7 +111,7 @@ public class LoginDAO extends BasicDAO {
 	public ModelBasic getRecord(String login, String passwd) throws SQLException, LoginException {
 		Login lgn = null;
 
-		String sql = "SELECT * FROM book WHERE login = ? and passwd = ? ";
+		String sql = "SELECT * FROM login WHERE login = ? and passwd = ? ";
 
 		connect();
 

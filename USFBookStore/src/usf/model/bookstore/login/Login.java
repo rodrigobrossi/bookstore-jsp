@@ -56,7 +56,7 @@ public class Login implements ModelBasic,ILogin {
 		this.permissions = permissions;
 	}
 
-	Login(int id, String login, String passwd, int permissions) {
+	public Login(int id, String login, String passwd, int permissions) {
 		super();
 		
 		this.id = id;
@@ -66,6 +66,10 @@ public class Login implements ModelBasic,ILogin {
 			this.passwd = getPassword(passwd, ILogin.SHA_256);
 		}
 		this.permissions = permissions;
+	}
+
+	public Login(int id) {
+		this.id = id;
 	}
 
 	/**

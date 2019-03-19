@@ -36,6 +36,7 @@
 </head>
 
 <%
+	//Importante para o local aonde está o contexto de aplicação.
 	String path = this.getServletContext().getContextPath();
 %>
 <body>
@@ -50,10 +51,10 @@
 	</center>
 	<div align="center">
 		<c:if test="${login != null}">
-			<form action="/login/update" method="post">
+			<form action="<%=path%>/login/update" method="post">
 		</c:if>
 		<c:if test="${login == null}">
-			<form action="/login/insert" method="post">
+			<form action="<%=path%>/login/insert" method="post">
 		</c:if>
 		<table id="books">
 			<caption>
@@ -88,9 +89,9 @@
 				<th>Permissions:</th>
 				<td><select id="perm" name="perm">
 					<option value="0" selected="<c:out default='None' value='${login.permissions}==0 ? Selected : None' />">Administrator</option>
-					<option value="1" selected="<c:out default='None' value='${login.permissions}==0 ? Selected : None' />">Advanced User</option>
-					<option value="2" selected="<c:out default='None' value='${login.permissions}==0 ? Selected : None' />">User</option>
-					<option value="3" selected="<c:out default='None' value='${login.permissions}==0 ? Selected : None' />">Client</option>
+					<option value="1" selected="<c:out default='None' value='${login.permissions}==1 ? Selected : None' />">Advanced User</option>
+					<option value="2" selected="<c:out default='None' value='${login.permissions}==2 ? Selected : None' />">User</option>
+					<option value="3" selected="<c:out default='None' value='${login.permissions}==3 ? Selected : None' />">Client</option>
 				</select>
 				
 			</tr>
