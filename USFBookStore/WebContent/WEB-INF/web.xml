@@ -3,20 +3,17 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
-	<display-name>Books Management Web Application</display-name>
-
+	<display-name>RGB - Controller (Web Application)</display-name>
 	<context-param>
 		<param-name>org.apache.myfaces.FACES_INITIALIZER</param-name>
 		<param-value>org.apache.myfaces.webapp.FaceletsInitilializer</param-value>
 	</context-param>
-	<!--  listener>
-		<listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
-	</listener -->
-	<listener> <listener-class> com.sun.faces.config.ConfigureListener </listener-class> 
-		</listener>
+	<listener>
+		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+	</listener>
 	<context-param>
 		<param-name>jdbcURL</param-name>
-		<param-value>jdbc:mysql://localhost:3306/bookstore</param-value>
+		<param-value>jdbc:mysql://localhost:3306/bookstore?serverTimezone=UTC</param-value>
 	</context-param>
 	<context-param>
 		<param-name>jdbcUsername</param-name>

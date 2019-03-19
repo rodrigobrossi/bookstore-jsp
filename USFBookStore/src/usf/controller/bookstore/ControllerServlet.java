@@ -25,6 +25,7 @@ public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BookDAO bookDAO;
 	private ClientDAO clientDAO;
+	//private ClientDAO clientDAO;
 
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -33,6 +34,7 @@ public class ControllerServlet extends HttpServlet {
 		String jdbcDriver = getServletContext().getInitParameter("jdbcDriver");
 
 		bookDAO = new BookDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
+		clientDAO = new ClientDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 
 	}
 
@@ -81,7 +83,7 @@ public class ControllerServlet extends HttpServlet {
 			throw new ServletException(ex);
 		}
 	}
-
+	
 	private void defaultCommnad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("Command", "TestCommnad");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("example/ExampleCommnad.jsp");
@@ -97,14 +99,6 @@ public class ControllerServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	private void listClient(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException {
-		List<ModelBasic> listBook = clientDAO.listAll();
-		request.setAttribute("listBook", listBook);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("book/BookList.jsp");
-		dispatcher.forward(request, response);
-	}
-
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("book/BookForm.jsp");
@@ -113,7 +107,7 @@ public class ControllerServlet extends HttpServlet {
 
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
-		int id = Integer.parseInt(request.getParameter("id"));
+		int id = Integer.parseInt(request.getParameter("login_id"));
 		ModelBasic existingBook = bookDAO.getRecord(id);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("book/BookForm.jsp");
 		request.setAttribute("book", existingBook);

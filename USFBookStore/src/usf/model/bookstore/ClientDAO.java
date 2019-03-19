@@ -11,6 +11,10 @@ public class ClientDAO extends BasicDAO{
 	public ClientDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
 		super(jdbcURL, jdbcUsername, jdbcPassword);
 	}
+	
+	public ClientDAO(String jdbcURL, String jdbcUsername, String jdbcPassword,String jdbcDriver) {
+		super(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
+	}
 
 	@Override
 	public boolean insert(ModelBasic model) throws SQLException {
