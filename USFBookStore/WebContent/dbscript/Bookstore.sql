@@ -12,6 +12,7 @@ CREATE TABLE `book` (
   UNIQUE KEY `title_UNIQUE` (`title`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1
 
+commit; 
 
 CREATE TABLE `client` (
   `client_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -23,6 +24,7 @@ CREATE TABLE `client` (
   UNIQUE KEY  `client_id_UNIQUE` (`client_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1
 
+commit; 
 
 create table `contract` (
      contract_id integer not null AUTO_INCREMENT,
@@ -32,3 +34,18 @@ create table `contract` (
      CONSTRAINT FK_ControctClient FOREIGN KEY (`client_id`) REFERENCES client(client_id),
      primary key (`contract_id`, `client_id`,`book_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1
+
+commit; 
+
+CREATE TABLE `login` (
+  `login_id` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(128) NOT NULL,
+  `passwd` varchar(128) NOT NULL,
+  `perm` integer NOT NULL,
+  PRIMARY KEY (`login_id`),
+  UNIQUE KEY `login_id_UNIQUE` (`login_id`),
+  UNIQUE KEY `login_UNIQUE` (`login`),
+  UNIQUE KEY `passwd_UNIQUE` (`passwd`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1
+
+commit;
