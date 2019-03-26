@@ -72,6 +72,11 @@ public class Login implements ModelBasic,ILogin {
 		this.id = id;
 	}
 
+	public Login(String login, String passwd) {
+		this.login = login;
+		this.passwd = passwd;
+	}
+
 	/**
 	 * Generates a MD5 as an example.
 	 * 

@@ -183,4 +183,23 @@ public class LoginDAO extends BasicDAO {
 
 		return lgn;
 	}
+
+	public boolean authenticate(Login login) throws SQLException {
+
+		String sql = "SELECT * FROM login WHERE login = ? and passwd = ? ";
+
+		connect();
+
+		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+		statement.setString(1, login.getLogin());
+		statement.setString(2, Login.getPassword(login.getPasswd(), ILogin.SHA_256));
+		
+		ResultSet resultSet = statement.executeQuery();
+
+		if (resultSet.next()) {
+			return true;
+		}
+		
+		return false;
+	}
 }

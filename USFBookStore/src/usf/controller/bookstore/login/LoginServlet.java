@@ -11,9 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import usf.model.bookstore.Book;
-import usf.model.bookstore.BookDAO;
-import usf.model.bookstore.ClientDAO;
+import org.apache.catalina.Session;
+
 import usf.model.bookstore.basic.ModelBasic;
 import usf.model.bookstore.login.Login;
 import usf.model.bookstore.login.LoginDAO;
@@ -93,12 +92,33 @@ public class LoginServlet extends HttpServlet {
 
 		} catch (SQLException ex) {
 			throw new ServletException(ex);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
 
-	private void defaultCommnad(HttpServletRequest request, HttpServletResponse response) {
+	private void defaultCommnad(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
+			
+			String lgn = request.getParameter("login");
+			String passwd = request.getParameter("password");
+			
+			Login login = new Login(lgn,passwd);
+			
+			
+			if(loginDAO.authenticate(login)){
+				
+				Session session = (Session) request.getSession();
+				session.getSession().setAttribute("auth", true);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/main.jsp");
+				dispatcher.forward(request, response);
+			}else{
+				throw new Error("Whe were not able to login using login:"+login.getLogin()); 
+			}
+			
+			
 			response.getWriter().append("Served at: ").append("This will be the login action");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -166,7 +186,6 @@ public class LoginServlet extends HttpServlet {
 	private void insertUser(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException {
 		try {
-			response.getWriter().append("Served at: ").append("insertUser");
 
 			String login = request.getParameter("login");
 			String pwd = request.getParameter("passwd");

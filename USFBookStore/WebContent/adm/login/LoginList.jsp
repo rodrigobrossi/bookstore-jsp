@@ -7,6 +7,10 @@
 <html>
 <head>
 <title>Loja de Livros</title>
+
+<link rel="stylesheet" href="../../app.css">
+
+
 <style>
 #books {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -76,6 +80,7 @@
 				</tr>
 			</c:forEach>
 
+				
 		</table>
 	</div>
 </body>

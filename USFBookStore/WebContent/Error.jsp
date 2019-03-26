@@ -10,6 +10,10 @@
     <center>
         <h1>Error</h1>
         <h2><%=exception.getMessage() %><br/> </h2>
+        <br>
+        <p>Please contact your administrator to address this Error. 
+        <br>
+        <a href='../index.jsp'>Return to login page and restart your work</a>
     </center>
 </body>
 </html>
